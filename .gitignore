@@ -1,0 +1,36 @@
+# ===== 不入库：原版权软件及其反编译产物（仅本地留存） =====
+/01-java/
+/02-apktool/
+/03-native/
+/04-ghidra/
+/05-assets/
+/06-source/
+/notes/
+
+# ===== Node / 构建产物 =====
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ===== 07-remake 临时工作输出 =====
+07-remake/_*
+07-remake/tools/_*/
+07-remake/port.out.txt
+07-remake/tsc.out.txt
+07-remake/tests/_*.txt
+
+# ===== Python =====
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# ===== 工具状态 =====
+.mimosa/
+.workbuddy/
+.zcode/
+.hallmark/
+
+# ===== 系统杂项 =====
+.DS_Store
+Thumbs.db

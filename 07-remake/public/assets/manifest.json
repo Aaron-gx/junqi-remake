@@ -1,0 +1,324 @@
+{
+ "board": {
+  "file": "board.png",
+  "w": 720,
+  "h": 1160,
+  "src": "datax#156"
+ },
+ "pieceAtlas": {
+  "file": "piece.png",
+  "w": 344,
+  "h": 427,
+  "cols": 4,
+  "rows": 7,
+  "tileW": 86,
+  "tileH": 61,
+  "src": "datax#167",
+  "layout": "row0-2 橙方(司令军长师长旅长/团长营长连长排长/工兵炸弹地雷军旗), row3-5 蓝方同序, row6 = 纯色块 绿(112,156,0)/橙(216,108,0)/蓝(40,104,160)/黑(0,0,0)",
+  "backRow": 6,
+  "back": {
+   "green": 0,
+   "orange": 1,
+   "blue": 2,
+   "black": 3
+  },
+  "backUsage": "翻棋背面=绿(col0)；暗棋里隐藏的对方子=蓝(col2)、隐藏的己方子=橙(col1)；黑(col3)未使用",
+  "note": "344x427 = 4x86 x 7x61，单元与格子严丝合缝，无分隔线；实测模拟器 900x1600 翻棋背面中心像素=(112,156,0) 与 col0 完全一致"
+ },
+ "skin": {
+  "btn": {
+   "file": "btn.png",
+   "w": 24,
+   "h": 90,
+   "cut": [
+    8,
+    44,
+    16,
+    45
+   ],
+   "srcName": "btn.png",
+   "slice": [
+    44,
+    8,
+    45,
+    8
+   ]
+  },
+  "btn1": {
+   "file": "btn1.png",
+   "w": 24,
+   "h": 95,
+   "cut": [
+    8,
+    47,
+    16,
+    48
+   ],
+   "srcName": "btn1.png",
+   "slice": [
+    47,
+    8,
+    47,
+    8
+   ]
+  },
+  "dlg": {
+   "file": "dlg.png",
+   "w": 24,
+   "h": 95,
+   "cut": [
+    8,
+    83,
+    16,
+    87
+   ],
+   "srcName": "dlg.png",
+   "slice": [
+    83,
+    8,
+    8,
+    8
+   ]
+  },
+  "list_item": {
+   "file": "list_item.png",
+   "w": 8,
+   "h": 90,
+   "cut": [
+    0,
+    0,
+    8,
+    90
+   ],
+   "srcName": "list_item.png",
+   "slice": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "list_item_h": {
+   "file": "list_item_h.png",
+   "w": 30,
+   "h": 2,
+   "cut": [
+    10,
+    0,
+    20,
+    2
+   ],
+   "srcName": "list_item_h.png",
+   "slice": [
+    0,
+    10,
+    0,
+    10
+   ]
+  },
+  "sbtn": {
+   "file": "sbtn.png",
+   "w": 24,
+   "h": 60,
+   "cut": [
+    8,
+    29,
+    16,
+    30
+   ],
+   "srcName": "sbtn.png",
+   "slice": [
+    29,
+    8,
+    30,
+    8
+   ]
+  },
+  "sbtn1": {
+   "file": "sbtn1.png",
+   "w": 24,
+   "h": 44,
+   "cut": [
+    8,
+    21,
+    16,
+    22
+   ],
+   "srcName": "sbtn1.png",
+   "slice": [
+    21,
+    8,
+    22,
+    8
+   ]
+  },
+  "sbtn2": {
+   "file": "sbtn2.png",
+   "w": 24,
+   "h": 64,
+   "cut": [
+    8,
+    31,
+    16,
+    32
+   ],
+   "srcName": "sbtn2.png",
+   "slice": [
+    31,
+    8,
+    32,
+    8
+   ]
+  },
+  "slider_shaft": {
+   "file": "slider_shaft.png",
+   "w": 72,
+   "h": 72,
+   "cut": [
+    24,
+    0,
+    48,
+    72
+   ],
+   "srcName": "slider_shaft.png",
+   "slice": [
+    0,
+    24,
+    0,
+    24
+   ]
+  },
+  "slider_thumb": {
+   "file": "slider_thumb.png",
+   "w": 72,
+   "h": 72,
+   "cut": [
+    0,
+    0,
+    72,
+    72
+   ],
+   "srcName": "slider_thumb.png",
+   "slice": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "popup": {
+   "file": "popup.png",
+   "w": 24,
+   "h": 24,
+   "cut": [
+    8,
+    8,
+    16,
+    16
+   ],
+   "srcName": "popup.png",
+   "slice": [
+    8,
+    8,
+    8,
+    8
+   ],
+   "flat": "rgba(0,0,0,0.8) + 8px 圆角，等价 CSS 即可"
+  }
+ },
+ "sound": {
+  "move": "move.wav",
+  "eat": "eat.wav",
+  "flip": "flip.wav",
+  "select": "select.wav",
+  "start": "start.wav",
+  "win": "win.wav",
+  "lose": "lose.wav",
+  "draw": "draw.wav",
+  "over": "over.wav",
+  "bomb": "bomb.wav",
+  "dead": "dead.wav",
+  "flag": "flag.wav",
+  "click0": "click0.wav",
+  "click1": "click1.wav",
+  "click2": "click2.wav",
+  "click3": "click3.wav",
+  "close": "close.wav",
+  "pop": "pop.wav"
+ },
+ "notes": [],
+ "boardWide": {
+  "file": "board_wide.png",
+  "w": 720,
+  "h": 1071,
+  "src": "datax#250"
+ },
+ "ui": {
+  "title_2p": "title_2p.png",
+  "title_2p_s": "title_2p_s.png",
+  "title_4p": "title_4p.png",
+  "logo_4p": "logo_4p.png",
+  "btn_start": "btn_start.png",
+  "art_main": "art_main.png",
+  "poster_1": "poster_1.png.jpg",
+  "poster_2": "poster_2.png.jpg",
+  "poster_3": "poster_3.png.jpg",
+  "bg_grad_1": "bg_grad_1.png.jpg",
+  "bg_grad_2": "bg_grad_2.png.jpg",
+  "board_4p": "board_4p.png",
+  "icon_flag": "icon_flag.png",
+  "icon_config": "icon_config.png",
+  "icon_chat": "icon_chat.png",
+  "icon_newgame": "icon_newgame.png",
+  "icon_menu": "icon_menu.png",
+  "icon_tick": "icon_tick.png",
+  "icon_remove": "icon_remove.png",
+  "icon_info": "icon_info.png",
+  "icon_regret": "icon_regret.png",
+  "icon_back": "icon_back.png",
+  "icon_chattiny": "icon_chattiny.png",
+  "icon_next": "icon_next.png",
+  "ui_tile_blue": "ui_tile_blue.png",
+  "ui_tile_red": "ui_tile_red.png",
+  "ui_check_a": "ui_check_a.png",
+  "ui_check_b": "ui_check_b.png",
+  "bg_main": "bg_main.jpg",
+  "title_main": "title_main.png",
+  "home_house": "home_house.png",
+  "float_menu": "float_menu.png",
+  "float_lay": "float_lay.png",
+  "icon_clear": "icon_clear.png",
+  "icon_load": "icon_load.png",
+  "icon_save": "icon_save.png",
+  "icon_finish": "icon_finish.png",
+  "icon_new": "icon_new.png",
+  "icon_undo": "icon_undo.png",
+  "icon_redo": "icon_redo.png",
+  "icon_draw": "icon_draw.png",
+  "icon_resign": "icon_resign.png",
+  "icon_chatbig": "icon_chatbig.png",
+  "icon_stat": "icon_stat.png",
+  "icon_rule": "icon_rule.png",
+  "icon_set": "icon_set.png",
+  "icon_exit": "icon_exit.png",
+  "icon_about": "icon_about.png",
+  "startBanner": "start_banner.png"
+ },
+ "text": {
+  "rulelay": {
+   "file": "rulelay.txt",
+   "srcEncoding": "gbk",
+   "src": "data/junqi/rulelay.txt"
+  },
+  "ruleflip": {
+   "file": "ruleflip.txt",
+   "srcEncoding": "gbk",
+   "src": "data/junqi/ruleflip.txt"
+  },
+  "sentence": {
+   "file": "sentence.txt",
+   "srcEncoding": "gbk",
+   "src": "data/junqi/sentence.txt"
+  }
+ }
+}

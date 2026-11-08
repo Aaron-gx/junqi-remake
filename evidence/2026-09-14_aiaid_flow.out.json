@@ -1,0 +1,1096 @@
+[
+  {
+    "name": "★ 玩家真实配置（deepseek-flash），清掉代理/超时覆盖",
+    "probe": {
+      "model": "deepseek-flash"
+    }
+  },
+  {
+    "name": "人机对战",
+    "how": "sel #btnOne rect=394x113 hidden=false op=1",
+    "at": [
+      449,
+      1138
+    ],
+    "hit": {
+      "tag": "BUTTON",
+      "cls": "home-btn sk sk-btn",
+      "id": "btnOne",
+      "txt": "",
+      "rect": [
+        253,
+        1081,
+        394,
+        113
+      ],
+      "chain": [
+        "BUTTON#btnOne.home-btn",
+        "DIV#homeStage.home-stage",
+        "DIV#home.home"
+      ]
+    },
+    "before": {
+      "mode": "home",
+      "turn": "",
+      "toast": "",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "home",
+        "vsAi": false,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 1,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    },
+    "after": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "翻棋开始：轮流翻开棋子，先翻开者执该色",
+      "toastOn": "1",
+      "toastOp": "0.983423",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "hidden",
+        "hidden"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    },
+    "changed": true
+  },
+  {
+    "name": "等横幅",
+    "note": "wait 3600ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "翻棋开始：轮流翻开棋子，先翻开者执该色",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "开 ☰",
+    "how": "sel #floatMenu rect=116x85 hidden=false op=1",
+    "at": [
+      272,
+      874
+    ],
+    "hit": {
+      "tag": "BUTTON",
+      "cls": "float-btn",
+      "id": "floatMenu",
+      "txt": "",
+      "rect": [
+        214,
+        831,
+        116,
+        85
+      ],
+      "chain": [
+        "BUTTON#floatMenu.float-btn",
+        "DIV#boardArea.board-area"
+      ]
+    },
+    "before": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "翻棋开始：轮流翻开棋子，先翻开者执该色",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    },
+    "after": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "翻棋开始：轮流翻开棋子，先翻开者执该色",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": "1",
+      "dlgVis": "block",
+      "dlgSize": [
+        844,
+        766
+      ],
+      "gridCells": 9,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    },
+    "changed": true
+  },
+  {
+    "name": "打点 t0",
+    "probe": 1
+  },
+  {
+    "name": "★ 点 AI 援助",
+    "how": "sel .icon-grid .icon-cell:nth-child(9) rect=200x250 hidden=false op=1",
+    "at": [
+      159,
+      1054
+    ],
+    "hit": {
+      "tag": "IMG",
+      "cls": "",
+      "id": null,
+      "txt": "",
+      "rect": [
+        92,
+        930,
+        135,
+        135
+      ],
+      "chain": [
+        "IMG",
+        "BUTTON.icon-cell",
+        "DIV.icon-grid",
+        "DIV.dlg-body",
+        "DIV.dlg-inner"
+      ]
+    },
+    "before": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "翻棋开始：轮流翻开棋子，先翻开者执该色",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": "1",
+      "dlgVis": "block",
+      "dlgSize": [
+        844,
+        766
+      ],
+      "gridCells": 9,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    },
+    "after": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 援助：正在问模型…（已等 0s，最多 60s，再点一次可取消）",
+      "toastOn": "1",
+      "toastOp": "0.996896",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": true,
+          "move": null,
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    },
+    "changed": true
+  },
+  {
+    "name": "等 1 秒",
+    "note": "wait 1000ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）",
+      "toastOn": "1",
+      "toastOp": "1",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": {
+            "from": 27,
+            "to": 27,
+            "reveal": true
+          },
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "t≈1s",
+    "probe": {
+      "sec": 1.25,
+      "busy": false,
+      "move": {
+        "from": 27,
+        "to": 27,
+        "reveal": true
+      }
+    }
+  },
+  {
+    "name": "等 1 秒",
+    "note": "wait 1000ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）",
+      "toastOn": "1",
+      "toastOp": "1",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": {
+            "from": 27,
+            "to": 27,
+            "reveal": true
+          },
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "t≈2s",
+    "probe": {
+      "sec": 2.26,
+      "busy": false,
+      "move": {
+        "from": 27,
+        "to": 27,
+        "reveal": true
+      }
+    }
+  },
+  {
+    "name": "等 1 秒",
+    "note": "wait 1000ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）",
+      "toastOn": "1",
+      "toastOp": "1",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": {
+            "from": 27,
+            "to": 27,
+            "reveal": true
+          },
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "t≈3s",
+    "probe": {
+      "sec": 3.28,
+      "busy": false,
+      "move": {
+        "from": 27,
+        "to": 27,
+        "reveal": true
+      }
+    }
+  },
+  {
+    "name": "等 2 秒",
+    "note": "wait 2000ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": {
+            "from": 27,
+            "to": 27,
+            "reveal": true
+          },
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "t≈5s",
+    "probe": {
+      "sec": 5.29,
+      "busy": false,
+      "move": {
+        "from": 27,
+        "to": 27,
+        "reveal": true
+      },
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）"
+    }
+  },
+  {
+    "name": "等 3 秒",
+    "note": "wait 3000ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": {
+            "from": 27,
+            "to": 27,
+            "reveal": true
+          },
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "t≈8s",
+    "probe": {
+      "sec": 8.3,
+      "busy": false,
+      "move": {
+        "from": 27,
+        "to": 27,
+        "reveal": true
+      },
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）"
+    }
+  },
+  {
+    "name": "等 4 秒",
+    "note": "wait 4000ms",
+    "state": {
+      "mode": "flip",
+      "turn": "翻棋定色中",
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）",
+      "toastOn": "0",
+      "toastOp": "0",
+      "dlg": null,
+      "dlgVis": "none",
+      "dlgSize": null,
+      "gridCells": 0,
+      "rowCount": 0,
+      "footBtns": 0,
+      "rulesChars": 0,
+      "editBar": null,
+      "rack": null,
+      "floats": [
+        "float_menu.png",
+        "icon_next.png"
+      ],
+      "st": {
+        "mode": "flip",
+        "vsAi": true,
+        "aiLevelId": 3,
+        "animEnabled": true,
+        "aidHints": false,
+        "revealAll": false,
+        "firstMove": 1,
+        "turn": 0,
+        "isDraw": false,
+        "winner": null,
+        "canUndo": false,
+        "editRemaining": null,
+        "msgCount": 1,
+        "board": {
+          "red": 25,
+          "blue": 25,
+          "revealed": 0
+        },
+        "aid": {
+          "configured": true,
+          "busy": false,
+          "move": {
+            "from": 27,
+            "to": 27,
+            "reveal": true
+          },
+          "relay": true,
+          "endpoint": "https://api.deepseek.com/v1/chat/completions",
+          "timeoutMs": 60000
+        },
+        "net": {
+          "status": "idle",
+          "seat": 0,
+          "room": "",
+          "names": [
+            "",
+            ""
+          ],
+          "online": [
+            false,
+            false
+          ],
+          "active": false,
+          "isHost": true,
+          "myTurn": null,
+          "appliedClicks": 0,
+          "rtt": -1,
+          "sum": null
+        }
+      }
+    }
+  },
+  {
+    "name": "t≈12s 终点断言",
+    "probe": {
+      "sec": 12.31,
+      "busy": false,
+      "move": {
+        "from": 27,
+        "to": 27,
+        "reveal": true
+      },
+      "bluePx": 1981,
+      "toast": "AI 建议：翻开 格27 这张暗子（点一下即可）（翻最前线中央，抢要点定色）"
+    }
+  }
+]

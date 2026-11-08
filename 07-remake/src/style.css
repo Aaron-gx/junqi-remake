@@ -1,0 +1,1439 @@
+/* 军棋 · 原版素材复刻版 —— 页面外壳按实拍几何还原（见 src/ui/shell.ts）。
+   视觉重心全部交给原版位图：标题栏是原版蓝渐变 + 原版「军棋」logo，
+   棋盘位图铺满整宽，局内只有两枚原版浮动图标。 */
+
+/* ── 原版内嵌字体 ───────────────────────────────────────
+   APK 的 assets/_unresolved/data 里有三支 TTF，按内部 name 表实测：
+     b85fc09b…ttf = MYingHeiGB18030C-Bold  ← 全部中文 UI 用这支（本来就是 Bold）
+     71c6556e…ttf = Arial                  ← 数字 / 拉丁
+     a82ee19f…ttf = ZYKai_FRIZQT           ← 楷体（棋子字面）
+   此前用系统「微软雅黑」渲染，笔画粗细与原版对不上（白像素多 7.7%），
+   这是布阵工具栏文字带残差的主因。故直接内嵌原版字体。
+   注意 @font-face 里写死 font-weight:400 —— 文件本身已是 Bold，
+   若再让浏览器按 700 去合成会二次加粗。 */
+@font-face {
+  font-family: "MYingHeiGB";
+  src: url("/assets/font/myinghei-bold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "JunqiArial";
+  src: url("/assets/font/arial.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "ZYKai";
+  src: url("/assets/font/zykai.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --page: #0f1115;
+  --bar-l: #9cd9f6; /* 实拍 x=0   → (156,217,246) */
+  --bar-m: #7cd1f5; /* 实拍 x=450 → (124,209,245) */
+  --bar-r: #59c8f4; /* 实拍 x=899 → ( 89,200,244) */
+  --ink: #2a2620;
+  --ink-2: #6a6154;
+  --ink-3: #9c9284;
+  --accent: #3f7d1a;
+  --warn: #b5601a;
+  --panel: #fbfaf7;
+  --panel-2: #f4f1ea;
+  --line: #ded6c6;
+  --radius: 10px;
+  --radius-sm: 7px;
+  /* 原版文字分工：中文走 MYingHeiGB18030C-Bold，数字/拉丁走 Arial（见文件头）。
+     两者都从 APK 里抠出来内嵌了，所以直接排在系统字体前面 —— 这才是原版的字面。
+     系统字体只作兜底（万一字体文件没加载出来）。 */
+  --font: "MYingHeiGB", "JunqiArial", "PingFang SC", "Microsoft YaHei",
+    "Hiragino Sans GB", "Noto Sans SC", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  /* ★ 原版有**两套**中文字面，别混用（依据 = 界面 XML 的样式表）：
+       · IconBtn / List / Label  → `font="Small"` = all.ttf   = MYingHeiGB（黑体）
+       · Button（btn.cfg 皮肤）  → 未指定 = MultiFont Normal
+                                    = mb.ttf = ZYKai 楷体 ← 首页/对话框按钮用它
+     实拍 s03/s14 里按钮文字有明显提按露锋，正是楷体。 */
+  --font-kai: "ZYKai", "MYingHeiGB", "KaiTi", "STKaiti", "Kaiti SC",
+    "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  /* IconBtn 标签的标定参数（art px，乘 --ds 得设备 px）。
+     原版实拍 `s15_lay.png`「清空布局」白字包围盒 = 155×37 设备px、墨迹顶 y=599。 */
+  --lbl-size: 32;
+  --lbl-dy: 4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── 原版页面骨架 ───────────────────────────────────── */
+#app {
+  position: relative;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+/* 标题栏：原版是**横向**渐变（左浅右深），不是上下渐变。 */
+/* 标题栏渐变 —— 三个终点都取自实拍：
+   x=0 → (156,217,246)、x=450 → (124,209,245)、x=899 → (89,200,244)。
+   只给两端的话中点是 (121,209,245)，红通道差 3 —— 补一个 50% 停靠点即为逐像素一致。 */
+.titlebar {
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    var(--bar-l) 0%,
+    var(--bar-m) 50%,
+    var(--bar-r) 100%
+  );
+  overflow: hidden;
+}
+
+.title-logo {
+  display: block;
+  width: auto;
+  /* 必须绝对定位：原版 logo 由 XML `rect` 给定左上角，靠 left/top 落位；
+     若留 static，left/top 会被忽略而退回 grid 居中，横向会偏 ~1.8px。 */
+  position: absolute;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 棋盘区：画布铺满，浮动图标叠在上面。 */
+.board-area {
+  position: relative;
+  overflow: hidden;
+  background: #d3bd97; /* 兜底：棋盘位图还没解码出来时不要闪白 */
+}
+
+#board {
+  display: block;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+/* 局内浮动图标 —— 原版这两枚**没有底板**，直接浮在棋盘上。 */
+.float-btn {
+  position: absolute;
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 90ms ease, filter 110ms ease;
+}
+
+.float-btn img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /*
+   * ★ 左槽图标**按右边缘对齐**：素材图幅随模式变（对局 `float_menu` 93 宽、
+   *   布阵 `float_lay` 90 宽），两枚的**右边缘**都落在同一 art x ≈ 264.2 上。
+   *   实测（s16_start vs s15_lay 的绿色字形中心）：
+   *     对局 字形中心 217.2 ⇒ 框中心 217.7 ⇒ 右沿 217.7 + 46.5 = 264.2
+   *     布阵 字形中心 218.4 ⇒ 框中心 219.4 ⇒ 右沿 219.4 + 45.0 = 264.4
+   *   「固定 93×68 的盒子 + 内容右对齐」正好同时复现两态（差 <0.3 art）。
+   *   注意：原版浮动图标**没有投影** —— 加投影会在位图外沿多一圈 ~1px 暗边。
+   */
+  object-fit: contain;
+  object-position: right center;
+}
+
+.float-btn:hover {
+  filter: brightness(1.14);
+}
+
+.float-btn:active {
+  transform: scale(0.93);
+}
+
+.float-btn[hidden] {
+  display: none;
+}
+
+/* 行动方提示：原版没有这个；做成一条**会淡出**的窄条，
+   既保留人机对战必需的反馈，又不占用棋盘的稳定像素。 */
+.turn-chip {
+  position: absolute;
+  left: 50%;
+  bottom: 1.2%;
+  transform: translateX(-50%);
+  padding: 3px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: rgba(30, 26, 22, 0.62);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: chip-fade 2.4s ease forwards;
+}
+
+.turn-chip[data-side="1"] {
+  background: rgba(192, 76, 43, 0.82);
+}
+
+.turn-chip[data-side="2"] {
+  background: rgba(43, 95, 168, 0.82);
+}
+
+@keyframes chip-fade {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 状态提示：同样做成会淡出的窄条。
+   ⚠️ 两个坑（2026-09-14 修）：
+     1) 默认 `opacity:0`，只有 `[data-on="1"]` 才亮 —— `status()` 从前不点灯，
+        所有文字反馈永久隐身，按钮看着全都"点了没反应"；
+     2) 这条是 `#app` 的**直接子元素**（不再在 `.board-area` 里），
+        因为主菜单态把 `.board-area` 整体 `visibility:hidden` 了。
+        `top` 由 `resize()` 按标题栏高度写入。
+   层级 35 > `.home`(30)，保证主菜单上也看得见；> `.modal-host`(34)，
+   因为提示条本身就是"刚才那一下的结果"，理应压在最上层读得到。 */
+.toast {
+  position: absolute;
+  left: 50%;
+  top: 1.1%;
+  transform: translateX(-50%);
+  z-index: 35;
+  max-width: 84%;
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(30, 26, 22, 0.78);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.toast[data-on="1"] {
+  opacity: 1;
+}
+
+.toast[data-tone="good"] {
+  background: rgba(53, 112, 22, 0.82);
+}
+
+.toast[data-tone="bad"] {
+  background: rgba(160, 74, 18, 0.85);
+}
+
+/* ══ 首页（启动主菜单）═══════════════════════════════════════
+   逐像素对齐原版实拍 `tools/_emu/s03.png`（雷电 9 · 900×1600）。
+   坐标系 = 设计空间 720×1280（与棋盘位图同一套，见 ui/shell.ts）：
+   dev = art × scale，900×1600 时 scale = 1.25。
+
+   怎么标定的：
+     · 背景 —— 把解包图逐张与该实拍求差，`bg_main.jpg`(720×1280) 全屏残差 21.3，
+       是唯一候选：除标题与 5 个按钮外**逐像素为 0**（含旗帜、三名士兵、放射光线，
+       它们都在背景图里，不是独立图层）。
+     · 标题 —— 图幅 507×266 的 `title_2p.png` 走 alpha 合成模板匹配，
+       按 art **1:1** 画时残差降到 4.24，字块外沿 (171..735, 170..427) 对上实拍
+       (173..735, 169..426)，差 ≤2px。★ 不是 shell.ts 里标题栏那枚 236×113 的
+       `title_2p_s.png`（那枚字距被压过，比例 2.19 对不上）。
+     · 按钮 —— 实拍包围盒与界面 XML 完全吻合，说明 XML 的坐标系就是 720×1280：
+       `datax/03c98d1b…xml` 给 `BackDlg rect="172,865,w375,h320"`，四个按钮分别是
+       (30,0)-(345,90) / (30,115)-(345,205) / (0,230)-(172,320) / (203,230)-(375,320)，
+       ×1.25 后与实拍量到的 252/1081、252/1225、215/1371、469/1371 差 ≤1.5px。
+       所以按钮几何**直接取 XML**，不靠目测。 */
+.home {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+}
+/* 设计空间画布：720×1280（＝界面 XML 的单位），由 JS 整体 scale 到设备尺寸。
+   文字因此"先按设计尺寸栅格化、再放大"，与原版一致的软边效果；
+   位图素材同样按设计尺寸摆放后放大，与原版同一条管线。
+   `transform-origin` 必须钉在左上角，否则缩放会带动位移。 */
+.home-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 720px;
+  height: 1280px;
+  transform-origin: 0 0;
+  /* 逼 Chrome「先按 720×1280 栅格化，再整体放大」—— 原版就是这么出图的
+     （实测 s03 就是 bg_main.jpg 的 1.25× 双线性上采样，残差 0.14）。 */
+  will-change: transform;
+}
+
+.home[hidden] {
+  display: none;
+}
+
+/* 背景：素材 720×1280 正好等于设计空间，铺满即可（不拉伸，比例本来就一致）。 */
+.home-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 「军棋」大标题：绝对定位，left/top/width/height 由 JS 按实测写死。 */
+.home-title {
+  position: absolute;
+  display: block;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 首页按钮 —— 皮肤同 `.ui-btn`（原版 `Button` 样式 = btn.cfg 九宫格），
+   但字面是楷体（MultiFont Normal = a82ee19f = 中易楷体 ZYKai Regular），
+   字号固定不随对话框缩放。字号一律按**设计单位**给（见 `.home-stage`）。 */
+.home-btn {
+  position: absolute;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  border-style: solid;
+  border-color: transparent;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-family: var(--font-kai);
+  font-weight: 400;
+  line-height: 1.16;
+  text-decoration: none;
+  /* 原版按钮文字**没有**投影：把纯白像素与原实拍对齐后静默，
+     加 text-shadow 会让白像素多出 ~9%（与布局工具栏那边同一条结论）。 */
+  text-shadow: none;
+  /* 原版整帧是「先按 720×1280 栅格化 → 双线性放大 1.25×」（见 `.home-stage`），
+     文字边缘因此被摊开：灰阶:纯白 = 3.04。Chrome 的 `transform: scale()` 静态渲染时会
+     **按最终尺寸重新栅格化文字**（实测灰/白只有 1.35，字看着更肥），
+     所以这里补一次亚像素模糊把边缘摊回去，等效于那次放大。数值由实拍扫参定。 */
+  filter: blur(var(--home-blur, 0px));
+  transition: filter 110ms ease;
+}
+
+/* 「四国军棋」这枚不吃楷体 —— 原版实拍是**粗黑体**（b85fc09b =
+   MYingHeiGB18030C-Bold，即界面默认的 `--font`），笔画等宽、无楷书的起收笔。
+   用楷体会明显偏细（实测墨量 857 vs 原版 1686）。 */
+.home-btn--hei {
+  font-family: var(--font);
+}
+
+/* 文字图层：`paintHomeLabel` 把字画进设计尺寸的离屏画布再贴回来，
+   好让它走「位图双线性放大」而不是被重新栅格化（原因见 main.ts 的注释）。
+   尺寸由 JS 按**边框盒**写死（画布就是按钮的边框盒大小）；这里不能写
+   `width/height:100%` —— 绝对定位子元素的包含块是**内边距盒**，
+   而这个皮肤的上下边框（44+45）在 scale=1 时已经吃掉整个 90px 高度，
+   内边距盒只剩 1px 高，文字会被压成一条线。 */
+.home-btn-label {
+  position: absolute;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.home-btn:hover {
+  filter: blur(var(--home-blur, 0px)) brightness(1.08);
+}
+
+.home-btn:active {
+  filter: blur(var(--home-blur, 0px)) brightness(0.93);
+}
+
+/* 左下角「小房子」——原版素材 datax 90×90，按 art 1:1 画，无底板、无文字。 */
+.home-house {
+  position: absolute;
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: filter 110ms ease;
+}
+
+.home-house img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.home-house:hover {
+  filter: brightness(1.08);
+}
+
+.home-house:active {
+  filter: brightness(0.93);
+}
+
+/* 首页铺满时，底下的棋盘骨架不该露出一角（也不该响应点击）。 */
+#app[data-mode="home"] .titlebar,
+#app[data-mode="home"] .board-area {
+  visibility: hidden;
+}
+
+/* 放在结构里但不参与布局的节点 */
+.offscreen {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  width: 340px;
+  pointer-events: none;
+}
+
+/* ── 原版对话框 ─────────────────────────────────────── */
+/* ⚠️ 层级必须**高于 `.home`(30)**：首页是整屏 `.home{inset:0}` 且带自己的
+   层叠上下文，`z-index:20` 时它会把从主菜单里弹出的对话框整张盖住 ——
+   真实点击落到的是 `#homeBg` 那张背景图，弹窗里的按钮**一个都点不动**
+   （无头浏览器 `elementFromPoint` 实测命中 `IMG#homeBg`，`changed:false`）。
+   这正是用户报的"点了没反应"在首页态的表现。
+   取 34：> `.home`(30)，又 < `.toast`(35) —— 提示条是"刚才那一下的结果"，
+   理应仍压在最上层（且它是 `pointer-events:none`，不会吃掉点击）。 */
+.modal-host {
+  position: absolute;
+  inset: 0;
+  z-index: 34;
+}
+
+.modal-host[hidden] {
+  display: none;
+}
+
+/* ⚠️ 原版**不压暗背景**：实拍 `s13_newdlg.png` 里对话框外的棋盘像素与无对话框时
+   逐点相同（用 rgba(18,16,14,.42) 遮罩算出来是 (94.6,79.7,53.9)，而原版是
+   (150,126,83) = **未压暗**的棋盘色）。所以这里只保留"点外部关闭"的命中区，
+   不画任何底色；早先那层 0.42 黑把整屏拉暗了 ~9（近处）/ ~57（亮处）。 */
+.dlg-backdrop {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+}
+
+/* 对话框底板 = `dlg.png` 九宫格；**外框尺寸**由 `layoutDialog` 按原版 XML 的
+   `Dialog rect` 给死（675×707 / 675×428 / 675×915 …）。
+   ⚠️ `dlg.cfg` 的切片是 [83,8,8,8]，套上 border 后 `.dlg` 的 padding box 会整体
+   内缩 (10, 103.75, 10, 10) 设备 px。绝对定位子元素是相对 **padding box** 定位的，
+   于是 `top:0` 会跑到 y=+103.75 —— 而原版 XML 的 `rect` 是相对**整框左上角**量的。
+   所以内容全部塞进 `.dlg-inner`，由它反向撑满 border box（= 675×707 可视区）。 */
+.dlg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  overflow: visible;
+  /* `applySkin` 会写入真实值；这里给 0 兜底，免得首帧 `calc()` 无效。 */
+  --bt: 0px;
+  --br: 0px;
+  --bb: 0px;
+  --bl: 0px;
+}
+
+.dlg-inner {
+  position: absolute;
+  left: calc(-1 * var(--bl));
+  top: calc(-1 * var(--bt));
+  width: calc(100% + var(--bl) + var(--br));
+  height: calc(100% + var(--bt) + var(--bb));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── 对话框内部几何 —— 原版 XML 直译（单位 = 设计 px，× `--ds` = 设备 px） ──
+   依据 `05-assets/resources/_unresolved/datax/*.xml`（GBK）：
+     `38dbe67d…` 新局 / `1b980046…` 规则设置 / `34aff937…` 图像设置 —— 三张表逐字段一致：
+       Dialog rect="0,0,675,707"  center="true" modal="true"
+       Icon   rect="8,4,0,0"                    ← 0,0 = 按原图自然尺寸（77² 或 108²）
+       Title  rect="85,15,660,75"  color=black
+       行 i   Label  rect="45,{135+115i},250,{185+115i}"  align=right
+              Button rect="330,{115+115i},630,{205+115i}"
+       Ok     rect="45,580,315,670"   Cancel rect="360,580,630,670"
+   ⇒ 行距 **115**、按钮 **300×90**、左/右留白 45、标签列 205、行列间距 80、
+      确定/取消各 270 宽、间距 45、距底 37。
+   ⚠️ 这套数值是**实拍反推**的。早先按「看着舒服」拍成行距 71、按钮高 56 设计 px、
+      正文 15px，整个内容块只有原版一半高 —— 实拍量出原版正文墨高 37~40 设计 px
+      ⇒ 字号 41。改这里必须用 `tools/_shots/_cmp_dlg.py` 复测（原版对照图
+      `tools/_emu/s13_newdlg.png`）。 */
+.dlg-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(90px * var(--ds));
+}
+
+/* Icon：XML `rect="8,4,0,0"` —— `0,0` 表示**按原图自然尺寸画**，
+   ⚠️ 单位是**设计 px**（要乘 `--ds`），不是 CSS px。
+   模板匹配（`tools/_shots/_iconfit.py`）结果：`icon_newgame` 在 scale=1.26/1.24
+   代价最小，框 97×97 设备 = 77.6 设计 px = 素材原始 77 ✓，
+   落点 (38,364) 设备 − 对话框原点 (28.1,358.1) = (9.9,5.9) 设备 = (7.9,4.7) 设计 ≈ XML 的 (8,4)。
+   所以素材就是 1:1 画画，只是必须**跟着 `--ds` 缩放**；写 `width:auto` 会得到
+   77 CSS px（= 77 设备 px），比原版小 22%。
+   素材原始尺寸有 77 与 108 两种，故尺寸由 JS 在 `load` 后按 `naturalWidth` 写死。
+
+   ⚠️ 必须 `:not(.txt-bmp)` —— 标题文字位图也是 `.dlg-title` 的直接子 `img`
+   （`position:absolute` 的包含块是最近的定位祖先，两个都是 `.dlg-title` 的孩子）。 */
+.dlg-title > img:not(.txt-bmp) {
+  position: absolute;
+  left: calc(8px * var(--ds));
+  top: calc(4px * var(--ds));
+  width: auto;
+  height: auto;
+}
+
+/* Title：`rect="85,15,660,75"`，黑字左对齐、纵向占满 15..75。 */
+/* ── 画布文字位图层（`src/ui/textbmp.ts`）────────────────────────────────
+   位图按**设计尺寸**光栅化，这里只负责按 `--ds` 放大 —— 浏览器只会做双线性
+   插值，复现原版「设计稿 → 整帧 ×1.25」的软边效果。宽高由 JS 写成
+   `calc(<w>px * var(--ds))`。 */
+.txt-bmp {
+  display: block;
+  image-rendering: auto;
+}
+
+/* 按钮里的文字：位图覆盖**整个按钮框**（300×90 / 270×90），
+   所以要用九宫格 border 的反向偏移抵消 padding box 内缩。 */
+.dlg-btn-txt {
+  position: absolute;
+  left: calc(-1 * var(--bl));
+  top: calc(-1 * var(--bt));
+  image-rendering: auto;
+  pointer-events: none;
+}
+
+.dlg-row .ui-btn,
+.dlg-foot .ui-btn {
+  position: relative;
+}
+
+.dlg-title-text {
+  position: absolute;
+  left: calc(85px * var(--ds));
+  top: calc(15px * var(--ds));
+}
+
+.dlg-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: calc(25px * var(--ds));
+  overflow-y: auto;
+  /* 内容超长时（设置 6 行、行棋记录、规则全文）要能滚动。
+     用细滚动条，免得默认那条 15px 灰槽把面板压歪。 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.45) transparent;
+}
+
+.dlg-body::-webkit-scrollbar {
+  width: calc(6px * var(--ds, 1));
+}
+
+.dlg-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+}
+
+.dlg-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 自由内容容器（规则全文 / 行棋记录）：让它在正文区里自己滚，
+   而不是把内容撑到对话框外面被 `.dlg-inner` 的 overflow:hidden 裁掉。 */
+.dlg-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.45) transparent;
+}
+
+.dlg-scroll::-webkit-scrollbar {
+  width: calc(6px * var(--ds, 1));
+}
+
+.dlg-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+}
+
+/* 正文区上界 = 标题行下沿 90，下界 = 707−127 = 580（= 确定键上沿）。
+   首行按钮顶 = 90 + 25 = **115** ✔ XML。 */
+.dlg:not(.dlg--plain) .dlg-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(90px * var(--ds));
+  bottom: calc(127px * var(--ds));
+  padding-top: calc(25px * var(--ds));
+}
+
+/* 原版行：`Label` 45..250 右对齐 + `Button` 330..630。 */
+.dlg-row {
+  display: grid;
+  grid-template-columns: calc(205px * var(--ds)) calc(300px * var(--ds));
+  gap: calc(80px * var(--ds));
+  padding: 0 calc(45px * var(--ds));
+  height: calc(90px * var(--ds));
+  align-items: center;
+  flex: none;
+}
+
+.dlg-label {
+  text-align: right;
+  font-size: calc(45px * var(--ds));
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* 高宽都按 XML 给死；配合 `applyDialogSkins` 里的 `fitsize=1`
+   （否则 `applySkin` 会用 `btn.png` 上下切片 44+45 覆盖高度）。 */
+.dlg-row .ui-btn {
+  width: calc(300px * var(--ds));
+  height: calc(90px * var(--ds));
+}
+
+.dlg-val {
+  font-size: calc(45px * var(--ds));
+  white-space: nowrap;
+}
+
+.dlg:not(.dlg--plain) .dlg-foot {
+  position: absolute;
+  left: calc(45px * var(--ds));
+  right: calc(45px * var(--ds));
+  bottom: calc(37px * var(--ds));
+  height: calc(90px * var(--ds));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(45px * var(--ds));
+  padding: 0;
+}
+
+.dlg-foot .ui-btn {
+  height: calc(90px * var(--ds));
+}
+
+/* 图标网格 = 原版 `IconBtn` 阵列。几何全部取自 XML：
+     菜单     `rect="0,0,675,428"`，8 格 (25,40)/(185,40)/… 与 (25,225)/…
+     布阵栏   `rect="c-337,…,w675,h240"`，4 格 (25,40)/(185,40)/(345,40)/(505,40)
+   即：格子 160×200、列距 160、行距 185、首格 (25,40)。
+   ★ 图标是 **108×108 的素材按 art 1:1 画**（实测星形字形 110×121 设备 =
+     108 素材字形(87×96) × 1.25），贴格子**上沿**、水平居中；白字紧跟其下。 */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, calc(160px * var(--ds)));
+  grid-auto-rows: calc(185px * var(--ds));
+  align-content: start;
+  justify-content: start;
+  padding: calc(40px * var(--ds)) 0 0 calc(25px * var(--ds));
+}
+
+.icon-cell {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  align-self: start;
+  height: calc(200px * var(--ds));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  border-radius: calc(6px * var(--ds));
+  transition: background 110ms ease;
+}
+
+.icon-cell img {
+  width: calc(108px * var(--ds));
+  height: calc(108px * var(--ds));
+  display: block;
+}
+
+.icon-cell span {
+  /* ★ 字体必须用原版内嵌的 MYingHeiGB18030C-Bold，**不是**系统雅黑。
+     这一点最能说明"标定顺序"有多重要：最早我用雅黑 + margin-top 6px 测，
+     白像素比原版多 6%，就下了"雅黑最接近"的结论；可其实那时纵向根本没对齐，
+     结论无效。等把 --lbl-dy 扫到最优、纵向对齐之后再比：
+       雅黑      标签带 mean 20.65 / 工具栏 7.17
+       MYingHei  标签带 mean 12.14 / 工具栏 5.78   ← 原版自带那支明显更贴
+     原因是字面骨架本来就同源，笔画粗细的差异远小于"字体根本不同"。
+     字号/偏移做成变量只为**标定时能安全扫参**：早先用
+       sed 's/font-size: calc([0-9]\+px \* var(--ds));$//'
+     扫参，行尾锚点匹配到全表所有同形声明，把对话框标题(20)、行标签(15)、
+     手牌提示(12) 一起改掉了；改成变量后只需动 `--lbl-*` 两行，不会误伤。 */
+  font-family: "MYingHeiGB", var(--font);
+  margin-top: calc(var(--lbl-dy) * 1px * var(--ds));
+  font-size: calc(var(--lbl-size) * 1px * var(--ds));
+  line-height: 1;
+  color: #fff;
+  /* 阴影实测：带 `0 1px 3px rgba(0,0,0,.75)` 标签带 mean 12.85，去掉 12.14
+     （三个字号上 3/3 一致复现，不是噪声）。原因是我们这支 Bold 本来就比原版
+     墨重 35%，再叠阴影只会更重，所以这里去掉。 */
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+/* 纯图标弹窗（原版菜单 `be78647b` / `cd7d9e3a`）：**没有标题行**，
+   面板就是 675×428 的 `popup.cfg`（= rgba(0,0,0,0.8) + 8 圆角），里面直接铺 IconBtn。 */
+.dlg--plain {
+  padding: 0;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: calc(8px * var(--ds));
+}
+
+.dlg--plain .dlg-body {
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.icon-cell:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.icon-cell:active {
+  transform: scale(0.96);
+}
+
+.icon-cell[data-active="true"] span {
+  color: #ffe27a;
+}
+
+/* ── 原版皮肤按钮 ───────────────────────────────────── */
+/* 高度由 JS 按「源图高 × uiScale」写死，这里只负责文字居中与横向内边距。 */
+.ui-btn {
+  appearance: none;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: #fff6da;
+  padding: 0 10px;
+  cursor: pointer;
+  border-style: solid;
+  border-color: transparent;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.55);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: filter 110ms ease, transform 60ms ease;
+}
+
+.ui-btn:hover {
+  filter: brightness(1.12);
+}
+
+.ui-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.94);
+}
+
+.ui-btn.wide {
+  width: 100%;
+}
+
+.ui-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-col {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-row .ui-btn {
+  flex: 1;
+  min-width: 76px;
+  padding: 0 6px;
+}
+
+.btn-row .ui-btn[data-active="true"] {
+  filter: brightness(1.22) saturate(1.15);
+  box-shadow: inset 0 0 0 2px rgba(255, 240, 160, 0.9);
+}
+
+.btn-row .ui-btn[data-active="false"] {
+  filter: brightness(0.8) saturate(0.9);
+}
+
+/* ── 面板（对话框里的记录 / 设置 / 布阵手牌） ─────────── */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-title {
+  position: relative;
+  padding-left: 10px;
+  font-size: calc(13px * var(--ds, 1));
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.panel-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #7fd23a, var(--accent));
+}
+
+/* ── 行棋记录 ───────────────────────────────────────── */
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 30vh;
+  overflow-y: auto;
+  font-size: 12.5px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+}
+
+.log-row {
+  color: var(--ink-2);
+  padding-bottom: 4px;
+  border-bottom: 1px dashed rgba(207, 196, 174, 0.6);
+}
+
+.log-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.log-row[data-tone="good"] {
+  color: var(--accent);
+}
+
+.log-row[data-tone="bad"] {
+  color: var(--warn);
+}
+
+/* ── 布阵手牌 ───────────────────────────────────────── */
+.edit-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #fff;
+}
+
+.hand {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+.hand-item {
+  position: relative;
+  appearance: none;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 82 / 57;
+  overflow: hidden;
+  transition: border-color 110ms ease, box-shadow 110ms ease;
+}
+
+.hand-item canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.hand-item:hover:not(:disabled) {
+  border-color: #ffe27a;
+}
+
+.hand-item[data-active="true"] {
+  border-color: #ffe27a;
+  box-shadow: 0 0 0 2px rgba(255, 226, 122, 0.5);
+}
+
+.hand-item:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.hand-count {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-size: 10px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 6px;
+  background: rgba(35, 30, 24, 0.72);
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.hint-box {
+  font-size: 12.5px;
+  line-height: 1.55;
+  padding: 8px 11px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+.hint-box[data-tone="good"] {
+  background: rgba(233, 248, 224, 0.94);
+  border-color: rgba(63, 125, 26, 0.4);
+  color: var(--accent);
+}
+
+.hint-box[data-tone="warn"] {
+  background: rgba(252, 238, 224, 0.94);
+  border-color: rgba(181, 96, 26, 0.4);
+  color: var(--warn);
+}
+
+/* ── 布阵：原版浮动工具栏 + 手牌条 ───────────────────── */
+/* 原版 `rect="c-337,…,w675,h240"`：暗底面板 + 4 个 IconBtn（图标在上、白字在下）。
+   格位直接用 `.icon-grid` 的原版几何（首格 25,40 / 160×200）。 */
+/* 面板皮肤 = 原版 `data/ui/popup.png`（24×24、切 8）：**外圈 3px 灰边 (105,105,105)
+   + 内部 (0,0,0,0.8)**，圆角 8。实拍 s15_lay 在 y=406..408 能直接量到那条灰边，
+   所以这里必须走 9 宫格 border-image（`sk-popup`，见 main.ts 的 applySkin），
+   只画一块 CSS 底色会漏掉边框 —— 这是工具栏区此前 6.6% 残差的主因之一。
+   中段仍用 background 补（border-image-slice 不带 fill）。 */
+.edit-bar {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: calc(8px * var(--ds));
+}
+
+/* 面板吃了 8 单位边框后，内容盒会整体内缩 —— 原版的格位是从**面板外沿**算的
+   （图标实测与无边框版逐像素吻合），所以这里把 padding 少掉一个切边宽度。
+   注意只覆盖工具栏内的网格：☰ 菜单对话框用的是 `.icon-grid` 的原值。 */
+.edit-bar .icon-grid {
+  padding: calc(32px * var(--ds)) 0 0 calc(17px * var(--ds));
+}
+
+/* 手牌条：原版把待放置的棋子铺成一条浮在对方半场的"货架"。 */
+.edit-rack {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: calc(4px * var(--ds));
+  max-width: calc(675px * var(--ds));
+  padding: calc(4px * var(--ds)) calc(6px * var(--ds));
+  background: rgba(24, 22, 20, 0.66);
+  border-radius: calc(10px * var(--ds));
+}
+
+.edit-rack .hand {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: calc(3px * var(--ds));
+  width: calc(430px * var(--ds));
+}
+
+.edit-rack .hand-item {
+  aspect-ratio: 82 / 57;
+}
+
+.edit-rack .hint-box {
+  font-size: calc(12px * var(--ds));
+  max-width: calc(220px * var(--ds));
+  padding: calc(5px * var(--ds)) calc(8px * var(--ds));
+}
+
+.edit-rack .btn-col {
+  gap: calc(4px * var(--ds));
+  width: calc(150px * var(--ds));
+}
+
+.edit-rack .ui-btn {
+  font-size: calc(12px * var(--ds));
+}
+
+/* ── 规则文本（原版 rulelay.txt） ───────────────────── */
+.rules {
+  font-size: 12.5px;
+  line-height: 1.72;
+  color: var(--ink-2);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  max-height: 44vh;
+  overflow-y: auto;
+}
+
+.rules p {
+  margin: 0;
+}
+
+.rules p.sp {
+  height: 8px;
+}
+
+.rules b.hl {
+  color: #9d6b00;
+  font-weight: 700;
+}
+
+/* ── 联机（两人联网对战）──────────────────────────────
+   复刻版**自加**界面：原版没有"服务器/房间"概念（它连的是 42.121.132.86:8500
+   自有协议），所以这里直接用 DOM 文字，不必走 `paintText` 位图那套。
+   配色沿用面板色（--panel/--line/--ink），只用绿色 --accent 标"对手在线"，
+   蓝色 --bar-m 标"我自己" —— 与棋盘上的红蓝方不冲突。 */
+.net-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.net-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.net-field-label {
+  flex: 0 0 auto;
+  min-width: 58px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.net-field input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 10px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+
+.net-field input:focus {
+  border-color: var(--bar-m);
+  box-shadow: 0 0 0 2px rgba(124, 209, 245, 0.35);
+}
+
+.net-status {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.net-seats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.net-seat {
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 8px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink-3);
+}
+
+/* 我自己：蓝调；对手已连上：绿调。两者都为 true 时以"我"为准。 */
+.net-seat[data-me="true"] {
+  border-color: rgba(124, 209, 245, 0.75);
+  background: rgba(226, 244, 253, 0.9);
+  color: var(--ink);
+}
+
+.net-seat[data-on="true"][data-me="false"] {
+  border-color: rgba(63, 125, 26, 0.45);
+  background: rgba(238, 249, 231, 0.92);
+  color: var(--accent);
+}
+
+.net-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.net-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.net-row-label {
+  flex: 0 0 auto;
+  min-width: 72px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.net-row .ui-btn {
+  flex: 1 1 auto;
+  font-size: 13px;
+  padding: 0 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   AI 观战（复刻版自加）
+   ───────────────────────────────────────────────────────────
+   为什么要压在**标题栏**里：那是页面上唯一一整块不承载棋局像素的区域，
+   叠上去不遮任何一格棋子（棋盘像素保真是本项目的底线）。
+   配色沿用标题栏的蓝色系（--bar-r 再压暗），不抢戏。
+   ═══════════════════════════════════════════════════════════ */
+
+/* 左侧解说条：状态行 + 上一手点评行。 */
+#watchInfo {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  /* 不许压到居中的 logo（logo 左边缘 art 241.7 ⇒ 设备 ≈ 302 @900 宽）——
+     所以上限 290px；窄屏再按 50% 收，宁窄不重叠。 */
+  max-width: min(290px, calc(50% - 118px));
+  padding: 6px 10px;
+  border-radius: 9px;
+  background: rgba(10, 52, 82, 0.52);
+  color: #eef8ff;
+  font-size: 12px;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 20, 40, 0.45);
+  /* 只是"看板"，不该抢走棋盘的点击。 */
+  pointer-events: none;
+  z-index: 3;
+}
+
+#watchInfo[hidden] {
+  display: none;
+}
+
+#watchHead {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+#watchBody {
+  opacity: 0.92;
+  /* 文本里带 `\n`（"走法 / 思考数据"两行），必须靠 pre-line 才会断。 */
+  white-space: pre-line;
+}
+
+#watchInfo[data-state="paused"] {
+  background: rgba(120, 84, 8, 0.6);
+}
+
+#watchInfo[data-state="over"] {
+  background: rgba(22, 92, 48, 0.62);
+}
+
+/* 右侧四枚按键：暂停/继续、走一手、棋谱、退出。 */
+#watchBar {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 4;
+}
+
+#watchBar[hidden] {
+  display: none;
+}
+
+.watch-btn {
+  appearance: none;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(10, 52, 82, 0.5);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 120ms ease, transform 90ms ease;
+}
+
+.watch-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.watch-btn:hover {
+  background: rgba(10, 52, 82, 0.78);
+}
+
+.watch-btn:active {
+  transform: scale(0.93);
+}
+
+/* ── 观战右侧「学习面板」──────────────────────────────────
+   挂 body 上、fixed 贴右：占的是棋盘的**外侧留白**（`#app` 宽 = 棋盘宽，
+   见 `resize()`），所以不压棋盘。留白不够时 `layoutWatchStudy()` 直接收起 ——
+   宁可没有面板，也不能糊在棋盘上挡住棋子。
+   配色沿用标题栏那条解说条（深蓝半透明 + 白字），一眼能认出是同一套观战 UI。 */
+#watchStudy {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-height: 78vh;
+  overflow-y: auto;
+  padding: 10px 12px;
+  border-radius: 11px;
+  background: rgba(10, 52, 82, 0.62);
+  color: #eef8ff;
+  font-size: 12px;
+  line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 20, 40, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 20, 40, 0.26);
+  z-index: 6;
+  /* 面板里的字要能选中（复制给别处复盘），所以**不**设 pointer-events: none。 */
+}
+
+#watchStudy[hidden] {
+  display: none;
+}
+
+#watchStudy[data-fit="tight"] {
+  font-size: 11px;
+  padding: 8px 9px;
+}
+
+#wsTitle {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.86;
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+#wsMain {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.ws-head {
+  font-size: 0.92em;
+  opacity: 0.78;
+  margin: 7px 0 4px;
+}
+
+.ws-opt {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+}
+
+.ws-opt:last-of-type {
+  border-bottom: 0;
+}
+
+/* 引擎真正落下的那一手 —— 整块面板就是为看它。 */
+.ws-opt[data-chosen="1"] {
+  background: rgba(255, 214, 102, 0.26);
+  font-weight: 700;
+}
+
+/*
+ * 「走这里会回到刚才出现过的局面」—— 已按 `AVOID_PENALTY` 降权。
+ * 只压暗、**不隐藏**：它仍然是合法着法，而且"引擎宁可选别的不选它"恰恰是看点。
+ * 实际选中那条不压暗 —— 那说明别的路更差，正是这一局要判和的信号。
+ */
+.ws-opt[data-avoid="1"]:not([data-chosen="1"]) {
+  opacity: 0.58;
+}
+
+.ws-opt-txt {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ws-opt-score {
+  flex: 0 0 auto;
+  opacity: 0.9;
+}
+
+.ws-note {
+  margin-top: 6px;
+  font-size: 0.92em;
+  opacity: 0.8;
+}
+
+#wsHist {
+  margin-top: 9px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  font-size: 0.95em;
+  opacity: 0.82;
+}
+
+/* ── 观战棋谱（对话框里）───────────────────────────────── */
+.watch-log {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+
+.watch-row {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 3px 6px;
+  border-radius: 5px;
+  border-bottom: 1px dashed rgba(207, 196, 174, 0.55);
+}
+
+.watch-row:last-child {
+  border-bottom: 0;
+}
+
+/* 座位配色沿用棋盘上的红/蓝（左红右蓝），与棋子本身同色系。 */
+.watch-row[data-seat="0"] {
+  background: rgba(192, 76, 43, 0.09);
+}
+
+.watch-row[data-seat="1"] {
+  background: rgba(43, 95, 168, 0.09);
+}
+
+/* 左侧竖线标出"这一手是赚还是亏"（分差来自引擎自己的估值函数）。 */
+.watch-row[data-tag="good"] {
+  box-shadow: inset 3px 0 0 0 var(--accent);
+}
+
+.watch-row[data-tag="bad"] {
+  box-shadow: inset 3px 0 0 0 var(--warn);
+}
+
+.watch-no {
+  flex: 0 0 auto;
+  min-width: 24px;
+  text-align: right;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.watch-txt {
+  flex: 1 1 auto;
+  color: var(--ink);
+}
+
+.watch-meta {
+  flex: 0 0 auto;
+  color: var(--ink-3);
+  font-size: 11px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.watch-empty {
+  padding: 10px;
+  color: var(--ink-3);
+  font-size: 13px;
+  line-height: 1.5;
+}

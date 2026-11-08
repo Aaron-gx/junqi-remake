@@ -1,0 +1,171 @@
+INFO  Using log config file: jar:file:/E:/Software/Tools/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: E:\Software\Tools\_appdata\ghidra\ghidra_12.1.3_PUBLIC\application.log (LoggingInitialization)  
+INFO  Loading user preferences: E:\Software\Tools\_appdata\ghidra\ghidra_12.1.3_PUBLIC\preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (901 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: SHA1PRNG (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Starting cache cleanup: C:\Users\<user>\AppData\Local\ghidra\fscache2 (FileCacheMaintenanceDaemon)  
+INFO  Finished cache cleanup, estimated storage used: 0 (FileCacheMaintenanceDaemon)  
+INFO  Headless startup complete (6473 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 177 extension points (88 false positives) (ClassSearcher)  
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldOffset has been called by org.apache.felix.framework.util.SecureAction (file:/E:/Software/Tools/ghidra_12.1.3_PUBLIC/Ghidra/Features/Base/lib/org.apache.felix.framework-7.0.5.jar)
+WARNING: Please consider reporting this to the maintainers of class org.apache.felix.framework.util.SecureAction
+WARNING: sun.misc.Unsafe::staticFieldOffset will be removed in a future release
+INFO  HEADLESS Script Paths:
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\scripts\ghidra
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    E:\Software\Tools\ghidra_12.1.3_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\04-ghidra\junqi (HeadlessAnalyzer)  
+INFO  Creating project: E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\04-ghidra\junqi (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\04-ghidra\junqi (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/03-native/libjunqi.so (HeadlessAnalyzer)  
+WARN  Using unknown opinion: Executable and Linking Format (ELF), ARM:LE:32:v7:default (LcsHintLoadSpecChooser)  
+INFO  Using Loader: Executable and Linking Format (ELF) (ProgramLoader)  
+INFO  Using Language/Compiler: ARM:LE:32:v7:default (ProgramLoader)  
+INFO  Using Library Search Path: [., C:\Windows\SysWOW64, E:\Software\androidstudio\jbr\bin, C:\Windows\Sun\Java\bin, C:\Windows\system32, C:\Windows, E, E:\Software\WorkBuddy\resources\app.asar.unpacked\cli\vendor\shim\safe-bin, C:\Users\<user>\.workbuddy\binaries\node\versions\22.22.2-2, C:\Users\<user>\.workbuddy\binaries\node\versions\.locks, C:\Users\<user>\.workbuddy\binaries\python\versions\3.13.12, C:\Users\<user>\.workbuddy\binaries\python\versions\.locks, C:\Users\<user>\.workbuddy\binaries\node\cli-connector-packages, C:\Users\<user>\.workbuddy\binaries\python\envs\default\Scripts, C:\Users\<user>\.workbuddy\binaries\PortableGit\versions\1.2.0\mingw64\bin, C:\Users\<user>\.workbuddy\binaries\PortableGit\versions\1.2.0\usr\bin, C:\Users\<user>\bin, C:\Users\<user>\.workbuddy\plugins\cache\workbuddy-builtin\weixinpay\1.6.109\bin, C:\Windows\System32\Wbem, C:\Windows\System32\WindowsPowerShell\v1.0\, C:\Windows\System32\OpenSSH\, E:\Software\Git\cmd, E:\Software\nodejs\, E:\Software\cursor\resources\app\bin, C:\Users\<user>\.kimi-code\bin, C:\Users\<user>\AppData\Local\Programs\Python\Python312\Scripts\, C:\Users\<user>\AppData\Local\Programs\Python\Python312\, C:\Users\<user>\AppData\Local\Programs\Python\Launcher\, C:\Users\<user>\AppData\Local\Microsoft\WindowsApps, E:\Software\Microsoft VS Code\bin, C:\Users\<user>\AppData\Roaming\npm, D:\flutter\bin, E:\Data\Androidstudio\SDK\platform-tools, C:\Users\<user>\AppData\AndroidCLI, C:\Users\<user>\AppData\Local\Python\bin, C:\Users\<user>\AppData\Local\Microsoft\WinGet\Packages\Anthropic.ClaudeCode_Microsoft.Winget.Source_8wekyb3d8bbwe, C:\Users\<user>\AppData\Local\Programs\MiKTeX\miktex\bin\x64\, C:\Users\<user>\AppData\Local\Programs\workbench, C:\Users\<user>\AppData\Local\Programs\DockerDesktop\resources\bin] (ProgramLoader)  
+INFO  Additional info:
+Loading file:///E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/03-native/libjunqi.so?MD5=3dfef9dc8087335566e306c00f1ecd0c...
+Setting block .data.rel.ro.local to read-only
+Setting block .fini_array to read-only
+Setting block .data.rel.ro to read-only
+Setting block .init_array to read-only
+Setting block .dynamic to read-only
+------------------------------------------------
+
+Linking the External Programs of 'libjunqi.so' to imported libraries...
+  [liblog.so] -> not found in project
+  [libGLESv2.so] -> not found in project
+  [libstdc++.so] -> not found in project
+  [libm.so] -> not found in project
+  [libc.so] -> not found in project
+  [libdl.so] -> not found in project
+------------------------------------------------
+
+Resolving External Symbols of [/libjunqi.so] - 204 unresolved symbols, no external libraries configured - skipping
+ (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: file:///E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/03-native/libjunqi.so (HeadlessAnalyzer)  
+INFO  DWARF external debug information found: ExternalDebugInfo [filename=null, crc=0, hash=1580754ae2b010e33e844b860efc12f4b34bac44, objectType=DEBUGINFO, extra=null] (ExternalDebugFileSectionProvider)  
+INFO  Unable to find DWARF information, skipping DWARF analysis (DWARFAnalyzer)  
+ERROR Invalid PNG data at 00134528 (PngDataType)  
+INFO  Packed database cache: C:\Users\<user>\AppData\Local\ghidra\packed-db-cache (PackedDatabaseCache)  
+INFO  Applied data type archive: generic_clib (ApplyDataArchiveAnalyzer)  
+INFO  -----------------------------------------------------
+    ARM Constant Reference Analyzer           11.445 secs
+    ARM Symbol                                 0.004 secs
+    ASCII Strings                              0.675 secs
+    Apply Data Archives                        0.920 secs
+    Call Convention ID                         1.773 secs
+    Call-Fixup Installer                       1.370 secs
+    Create Address Tables                      0.348 secs
+    Create Address Tables - One Time           1.012 secs
+    Create Function                            1.558 secs
+    DWARF                                      0.015 secs
+    Data Reference                             1.321 secs
+    Decompiler Switch Analysis                33.941 secs
+    Demangler GNU                              1.002 secs
+    Disassemble                                7.892 secs
+    Disassemble Entry Points                   3.894 secs
+    Embedded Media                             0.052 secs
+    External Entry References                  0.007 secs
+    Function ID                                0.152 secs
+    Function Start Pre Search                  0.067 secs
+    Function Start Search                      0.467 secs
+    Function Start Search After Code           0.732 secs
+    Function Start Search After Data           0.634 secs
+    Function Start Search delayed - One Time   0.278 secs
+    Non-Returning Functions - Discovered       0.868 secs
+    Non-Returning Functions - Known            0.016 secs
+    Reference                                  2.129 secs
+    Shared Return Calls                        0.403 secs
+    Stack                                      9.485 secs
+    Subroutine References                      7.005 secs
+    Subroutine References - One Time           0.000 secs
+-----------------------------------------------------
+     Total Time   89 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:///E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/03-native/libjunqi.so (HeadlessAnalyzer)  
+INFO  REPORT: Execute script: JunqiRename.java 'E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/04-ghidra/renames'  (HeadlessAnalyzer)  
+JunqiExport.java:11: error: cannot find symbol
+import ghidra.program.model.data.Data;
+                                ^
+  symbol:   class Data
+  location: package ghidra.program.model.data
+JunqiRename.java:11: error: cannot find symbol
+import ghidra.program.model.data.Data;
+                                ^
+  symbol:   class Data
+  location: package ghidra.program.model.data
+JunqiExport.java:53: error: cannot find symbol
+            Data d;
+            ^
+  symbol:   class Data
+  location: class JunqiExport
+JunqiRename.java:61: error: cannot find symbol
+            Data d;
+            ^
+  symbol:   class Data
+  location: class JunqiRename
+JunqiRename.java:103: error: method setName in interface ghidra.program.model.listing.Function cannot be applied to given types;
+                    f.setName(newName);
+                     ^
+  required: java.lang.String,ghidra.program.model.symbol.SourceType
+  found:    java.lang.String
+  reason: actual and formal argument lists differ in length
+skipping E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\scripts\ghidra\JunqiExport.java
+skipping E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\scripts\ghidra\JunqiRename.java
+ERROR REPORT SCRIPT ERROR: JunqiRename.java : The class could not be found. It must be the public class of the .java file: JunqiRename not found by 4ded10a4 [1] (HeadlessAnalyzer) ghidra.app.script.GhidraScriptLoadException: The class could not be found. It must be the public class of the .java file: JunqiRename not found by 4ded10a4 [1]
+	at ghidra.app.script.JavaScriptProvider.getScriptInstance(JavaScriptProvider.java:114)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScriptsList(HeadlessAnalyzer.java:915)
+	at ghidra.app.util.headless.HeadlessAnalyzer.analyzeProgram(HeadlessAnalyzer.java:1085)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processFileWithImport(HeadlessAnalyzer.java:1583)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithLoader(HeadlessAnalyzer.java:1743)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1684)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1768)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:452)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+Caused by: java.lang.ClassNotFoundException: JunqiRename not found by 4ded10a4 [1]
+	at org.apache.felix.framework.BundleWiringImpl.findClassOrResourceByDelegation(BundleWiringImpl.java:1591)
+	at org.apache.felix.framework.BundleWiringImpl.access$300(BundleWiringImpl.java:79)
+	at org.apache.felix.framework.BundleWiringImpl$BundleClassLoader.loadClass(BundleWiringImpl.java:1976)
+	at java.base/java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.apache.felix.framework.Felix.loadBundleClass(Felix.java:2116)
+	at org.apache.felix.framework.BundleImpl.loadClass(BundleImpl.java:986)
+	at ghidra.app.script.JavaScriptProvider.loadClass(JavaScriptProvider.java:166)
+	at ghidra.app.script.JavaScriptProvider.getScriptInstance(JavaScriptProvider.java:97)
+	... 10 more
+ 
+INFO  ANALYZING changes made by post scripts: file:///E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/03-native/libjunqi.so (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: file:///E:/Learn/MeProject/2026.9.10-reverse/work/2026.9.10-base-apk/03-native/libjunqi.so (HeadlessAnalyzer)  
+INFO  /libjunqi.so: file created (<user>) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /libjunqi.so (junqi:/libjunqi.so) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

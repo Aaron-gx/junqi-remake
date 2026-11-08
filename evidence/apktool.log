@@ -1,0 +1,34 @@
+Warning: Apktool no longer supports 32-bit platforms.
+I: Using Apktool 3.0.2 on base.apk with 8 threads
+I: Loading resource table...
+I: Baksmaling classes.dex...
+I: Decoding value resources...
+I: Loading resource table from file: C:\Users\<user>\AppData\Local\apktool\framework\1.apk
+I: Decoding file resources...
+
+
+Error occurred while disassembling class Landroid.support.v4.R$attr; - skipping class
+java.io.FileNotFoundException: E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\02-apktool\smali\android\support\v4\R$attr.smali (¾Ü¾ø·ÃÎÊ¡£)
+	at java.base/java.io.IoOverNioFileSystem.convertNioToIoExceptionInStreams(Unknown Source)
+	at java.base/java.io.IoOverNioFileSystem.initializeStreamsUsingNio0(Unknown Source)
+	at java.base/java.io.IoOverNioFileSystem.initializeStreamUsingNio(Unknown Source)
+	at java.base/java.io.FileOutputStream.<init>(Unknown Source)
+	at java.base/java.io.FileOutputStream.<init>(Unknown Source)
+	at com.android.tools.smali.baksmali.Baksmali.access$000(SourceFile:163)
+	at com.android.tools.smali.baksmali.Baksmali$1.call(SourceFile:84)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.nio.file.AccessDeniedException: E:\Learn\MeProject\2026.9.10-reverse\work\2026.9.10-base-apk\02-apktool\smali\android\support\v4\R$attr.smali
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(Unknown Source)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(Unknown Source)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(Unknown Source)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newFileChannel(Unknown Source)
+	... 10 more
+I: Generating values XMLs...
+I: Decoding AndroidManifest.xml with resources...
+I: Copying original files...
+I: Copying assets...
+I: Copying lib...
+I: Copying unknown files...

@@ -1,0 +1,60 @@
+{
+  "apk": {
+    "path": "E:\\Learn\\MeProject\\2026.9.10-reverse\\base.apk",
+    "size_bytes": 8908897,
+    "sha256": "3cb1aae814be03d23ce452b047e630d422c01ee154811d2578973ba1d2202426",
+    "entries": 176,
+    "uncompressed_bytes": 10382909
+  },
+  "dex": [
+    {
+      "magic": "dex\n035",
+      "version": "035",
+      "file_size": 1363600,
+      "string_ids": 12802,
+      "type_ids": 1971,
+      "proto_ids": 3193,
+      "field_ids": 5226,
+      "method_ids": 12788,
+      "class_defs": 1224,
+      "name": "classes.dex",
+      "zip_size": 1363600,
+      "sha256": "32552145b27ca9d48fd4de3bf0b1e6e349d2eb226851b8e9c73e32df82eabc05"
+    }
+  ],
+  "dex_totals": {
+    "classes": 1224,
+    "methods": 12788
+  },
+  "native_libs": [
+    {
+      "name": "lib/armeabi-v7a/libjunqi.so",
+      "size": 1308992,
+      "compressed": 752196,
+      "method": "DEFLATED"
+    }
+  ],
+  "resources_arsc": [
+    {
+      "name": "resources.arsc",
+      "size": 33564,
+      "compressed": 33564,
+      "method": "STORED"
+    }
+  ],
+  "assets_count": 9,
+  "res_count": 134,
+  "packer_signs": {},
+  "sdk_hits": {
+    "广点通广告": 252
+  },
+  "urls_sample": [
+    "http://schemas.android.com/apk/res/android",
+    "http://sdk.e.qq.com/activate",
+    "http://sdk.e.qq.com/launch"
+  ],
+  "domains_sample": [
+    "schemas.android.com",
+    "sdk.e.qq.com"
+  ]
+}

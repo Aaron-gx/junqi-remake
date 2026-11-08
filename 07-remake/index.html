@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>军棋 · 二人陆战棋</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <!-- 页面骨架 = 原版实拍：蓝色渐变标题栏 + 铺满整宽的棋盘 + 两枚浮动图标。
+         几何常量在 src/ui/shell.ts，这里只放结构。 -->
+    <div id="app">
+      <!-- 首页（启动主菜单）= 原版实拍 s03.png：背景图铺满 + 「军棋」标题 + 4 个按钮。
+           几何在 src/main.ts 的 HOME_* 常量，素材 bg_main.jpg / title_main.png。
+           ⚠️ 内层 `.home-stage` 是**设计空间**（720×1280，与界面 XML 同一坐标系），
+           由 JS 对它整体 `transform: scale()` 到设备尺寸。原版就是这么干的：
+           文字先按 720 宽渲染、再随整帧放大 1.25×，所以实测笔画比"直接按 900 宽渲染"
+           更细、边缘更糊（灰/白像素比 3.04 vs 1.35）。子元素一律用设计单位定位。 -->
+      <div class="home" id="home" hidden>
+        <div class="home-stage" id="homeStage">
+          <img class="home-bg" id="homeBg" alt="" draggable="false" />
+          <img class="home-title" id="homeTitle" alt="军棋" draggable="false" />
+          <button class="home-btn" id="btnOne" type="button">人机对战</button>
+          <button class="home-btn" id="btnTwo" type="button">两人对战</button>
+          <button class="home-btn" id="btnNet" type="button">联网</button>
+          <button class="home-btn" id="btnPeer" type="button">联机</button>
+          <button class="home-btn home-btn--hei" id="btnSg" type="button">四国<br />军棋</button>
+          <!-- 「AI 观战」（复刻版自加）：两台电脑对下、人看棋学技法。
+               几何与字面都由 HOME_BUTTONS 驱动，这里只放结构。 -->
+          <button class="home-btn home-btn--hei" id="btnWatch" type="button">AI<br />观战</button>
+          <button class="home-house" id="homeHouse" type="button" aria-label="返回主页">
+            <img id="homeHouseImg" alt="" draggable="false" />
+          </button>
+        </div>
+      </div>
+
+      <div class="titlebar">
+        <img class="title-logo" id="titleLogo" alt="军棋" draggable="false" />
+      </div>
+
+      <div class="board-area" id="boardArea">
+        <canvas id="board"></canvas>
+        <button class="float-btn" id="floatMenu" type="button" aria-label="菜单"></button>
+        <button class="float-btn" id="floatUndo" type="button" aria-label="悔棋"></button>
+        <div class="turn-chip" id="turnBanner" hidden></div>
+      </div>
+
+      <!-- 状态提示条**必须挂在 #app 下**，不能塞进 .board-area：
+           主菜单态下 `.board-area` 是 `visibility:hidden`（见 style.css），
+           提示条跟着隐身 —— 于是首页那 5 个按钮点下去全都"没反应"
+           （它们只发一条 status 说明，没有别的可见变化）。
+           位置由 `resize()` 按标题栏高度写 top。 -->
+      <div class="toast" id="statusText"></div>
+
+      <div class="modal-host" id="modalHost" hidden></div>
+      <!-- 侧栏面板（记录 / 设置 / 布阵手牌）现在挂在对话框里，但仍沿用同一套 DOM 构件。 -->
+      <div class="offscreen" id="sidebar"></div>
+      <div class="offscreen" id="sideDock"></div>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
